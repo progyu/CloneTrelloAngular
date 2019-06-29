@@ -1,0 +1,84 @@
+<app-header
+  [colors]="colors"
+  [colorBoolean]="colorBoolean"
+  (changeBgColor)="changeBgColor($event)"
+  (bgColorState)="colorBoolean = $event"
+></app-header>
+
+<section class="board-wrap">
+  <div class="list-wrap">
+    <div cdkDropList cdkDropListOrientation="horizontal" [cdkDropListData]="lists"
+        class="horizontal-list" (cdkDropListDropped)="horizontalDrop($event)">
+      <div cdkDropListGroup class="vertical-container" *ngFor="let list of lists" cdkDrag [cdkDragData]="lists" #verticalContainer>
+        <div class="horizontal-placeholder" *cdkDragPlaceholder [style.height]="verticalContainerHeight + 'px'"></div>
+        <div class="vertical-list-wrap">
+          <div class="vertical-list-header">
+            <div class="vertical-list-header-target" (click)="changeTitle(verticalListHeaderTarget, titleTextarea)"
+                (mousedown)="verticalPlaceholderHeight(verticalContainer)" #verticalListHeaderTarget></div>
+            <textarea class="vertical-list-title" spellcheck="false" maxlength="512" (keyup)="titleResize(titleTextarea)"
+                      (keyup.enter)="changeTitleEnd(titleTextarea, verticalListHeaderTarget)" id="{{ list.id }}"
+                      (blur)="changeTitleEnd(titleTextarea, verticalListHeaderTarget)" #titleTextarea>{{list.title}}</textarea>
+            <a href="#" class="delete-btn" (click)="removeSnackBar(list.id)"><i class="fa fa-trash-o"></i></a>
+          </div>
+          <div cdkDropList [cdkDropListData]="list.cards" id={{list.id}} class="vertical-list"
+            (cdkDropListDropped)="verticalDrop($event)" [cdkDropListConnectedTo]="getConnectedList()">
+            <div class="vertical-box" *ngFor="let card of list.cards" cdkDrag id="{{ list.id }}"
+              [cdkDragData]="card" (mousedown)="boxPlaceholderHeight($event.target)">
+              <div class="vertical-placeholder" *cdkDragPlaceholder [style.height]="verticalBoxHeight + 'px'"></div>
+              <a href="#" class="vertical-box-link" mat-raised-button
+              (click)="getCard(card.id)">{{card.cardTitle}}</a>
+              <span class="remove-card-btn" (click)="removeSnackBar(list.id, card.id, true)"><i class="fa fa-trash-o"></i></span>
+            </div>
+            <div class="card-composer is-hidden" #cardComposer>
+              <div class="vertical-box">
+                <textarea class="list-card-composer-textarea" placeholder="Enter a title for this card…"
+                          (keyup)="titleResize(listCardComposerTextarea)" spellcheck="false"
+                          (keyup.enter)="addCardTitle(listCardComposerTextarea)" id="{{list.id}}" #listCardComposerTextarea></textarea>
+              </div>
+              <a href="#" class="add-btn" (click)="addCardTitle(listCardComposerTextarea)">Add Card</a>
+              <a href="#" class="cancle-btn" (click)="hideAddCard(cardComposer, addCardBtn)"><i class="fa fa-times"></i></a>
+
+            </div>
+          </div>
+          <a
+            href="#"
+            class="add-card-btn"
+            (click)="
+              showAddCard(cardComposer, addCardBtn, listCardComposerTextarea)
+            "
+            #addCardBtn
+            ><i class="fa fa-plus"></i> Add Card</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="list-wrap">
+    <a
+      href="#"
+      class="add-list-btn"
+      (click)="addListOpen = !addListOpen"
+      *ngIf="addListOpen; else titleInput"
+    >
+      <i class="fa fa-plus"></i> Add List
+    </a>
+    <ng-template #titleInput>
+      <div class="add-list-wrap">
+        <input
+          type="text"
+          class="list-title-input"
+          (keyup.enter)="addList(listTitleInput)"
+          autofocus
+          #listTitleInput
+          placeholder="Enter list title..."
+        />
+        <a href="#" class="add-btn" (click)="addList(listTitleInput)"
+          >Add List</a
+        >
+        <a href="#" class="cancle-btn" (click)="addListOpen = !addListOpen"
+          ><i class="fa fa-times"></i
+        ></a>
+      </div>
+    </ng-template>
+  </div>
+</section>

@@ -1,0 +1,77 @@
+/* header */
+mat-toolbar {
+  height: 40px;
+  background: rgba(0, 0, 0, .15);
+}
+mat-toolbar .logo {
+  flex: 1;
+  color: #FFF;
+  font-size: 20px;
+  font-weight: 500;
+  text-align: center;
+  opacity: .5;
+}
+
+/* board title */
+.board-title-wrap {
+  padding: 8px;
+}
+.board-title {
+  padding: 0 12px;
+  color: #FFF;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+/* 백그라운드 색상 변경 박스*/
+.bg-change-btn{
+  position: absolute;
+  right: 16px;
+  border-radius: 3px;
+  border: 0;
+  cursor: pointer;
+  text-decoration: none;
+  align-items: center;
+  background-color: hsla(0,0%,100%,.3);
+  box-shadow: none;
+  color: #fff;
+  font-weight: 700;
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+  margin: 0 6px 0 0;
+  padding: 0;
+  transition: .1s ease;
+  white-space: nowrap;
+  outline: none;
+}
+.bg-change-btn:hover {
+  background-color: rgba(9,30,66,.04);
+}
+.bg-change-box {
+  position: absolute;
+  top: 50px;
+  right: 20px;
+  width: 110px;
+  height: 110px;
+  border-radius: 5px;
+  background-color: #dfe1e6;
+  box-shadow: 0 2px 4px -1px rgba(0,0,0,.2), 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12);
+  z-index: 99;
+}
+
+/* 백그라운드 색상 변경 */
+.color-picker {
+  content: '';
+  display: inline-block;
+  width: 38%;
+  height: 38%;
+  box-sizing: border-box;
+  border: 1px solid rgba(0,0,0,.2);
+  border-radius: 50%;
+  margin: 7px 4px 2px 7px;
+  cursor: pointer;
+}
+.color-picker:hover {
+  opacity: .7;
+}

@@ -1,0 +1,13 @@
+<mat-toolbar>
+  <h1 class="logo"><i class="fa fa-trello"></i> Trello</h1>
+  <button class="bg-change-btn" (click)="bgColorState.emit(!colorBoolean)"><span> <i class="fa fa-paint-brush"></i>
+    </span></button>
+</mat-toolbar>
+<div class="bg-change-box" *ngIf="colorBoolean">
+  <div class="color-picker" *ngFor="let color of colors" [style.backgroundColor]="color"
+    (click)="changeBgColor.emit(color)">
+  </div>
+</div>
+<section class="board-title-wrap">
+  <h2 class="board-title">projectTitle</h2>
+</section>

@@ -1,0 +1,123 @@
+<div *ngIf="cardService.card; else loading">
+  <h1 mat-dialog-title>
+    <i class="fa fa-list-alt" aria-hidden="true"></i>
+    <label for="title" class="titleLabel">Title: </label>
+    <br />
+    <input
+      value="{{ cardService.card.cardTitle }}"
+      class="titleInput"
+      id="title"
+      #titleInput
+      (blur)="changeTitle(titleInput, cardService.card.id)"
+    />
+  </h1>
+  <mat-dialog-content class="mat-typography">
+    <i class="fa fa-list" aria-hidden="true"></i>
+    <label for="description" class="label">Description: </label>
+    <br />
+    <textarea
+      id="description"
+      class="descriptionInputs"
+      #descriptionInput
+      value="{{ cardService.card.description }}"
+      (focusin)="changeDescriptionState(descriptionInput)"
+      (blur)="changeDescriptionState(descriptionInput)"
+      (keyup)="titleResize(descriptionInput)"
+      (keyup)="
+        changeContent(
+          descriptionInput,
+          cardService.card.id,
+          cardService.card,
+          cardService.card.title
+        )
+      "
+      placeholder="Add a more detailed description…"
+    >
+    </textarea>
+    <button
+      class="descriptionBtnHidden"
+      [class.descriptionBtnDisplay]="!descriptionState"
+      (mousedown)="clickDescriptionBtn(descriptionInput, cardService.card.id)"
+    >
+      Save
+    </button>
+
+    <br />
+    <i class="fa fa-comments-o" aria-hidden="true"></i>
+    <label for="comment" class="label">Add Comment: </label>
+    <br />
+    <input
+      id="comment"
+      #inputComment
+      class="commentInputs"
+      autocomplete="off"
+      placeholder="Write a comment..."
+      (input)="typing(inputComment)"
+    />
+    <button
+      class="commentBtn"
+      [class.commentBtnAct]="valueTrue"
+      [disabled]="!valueTrue"
+      (click)="addComment(inputComment, cardService.card.id)"
+    >
+      Save
+    </button>
+    <br />
+    <i class="fa fa-list-ul" aria-hidden="true"></i>
+    <label for="Activity" class="label">Activity: </label>
+    <br />
+    <div *ngFor="let comment of cardService.card.comments">
+      <textarea
+        #activityEdit
+        class="activityComment"
+        value="{{ comment.comment }}"
+        [disabled]="comment.id !== flag"
+      >
+      </textarea>
+      <button
+        class="activitySaveBtn"
+        [class.activitySaveBtnAct]="comment.id === flag"
+        (click)="activityEditSave(activityEdit, comment.id)"
+      >
+        Save
+      </button>
+      <button
+        class="activityCancelBtn"
+        [class.activityCancelBtnAct]="comment.id === flag"
+        (click)="flag = 0"
+      >
+        <i class="fa fa-times" aria-hidden="true"></i>
+      </button>
+      <div>
+        <span class="editDelete" *ngIf="comment.id !== flag" (click)="flag = comment.id">Edit</span>
+        <span class="editDelete" *ngIf="comment.id !== flag" (click)="activityEditDelete(comment.id)"
+          >Delete</span
+        >
+      </div>
+    </div>
+    <!-- <span>
+      Card ID: <span #cardId>{{ cardService.card.id }}</span>
+    </span> -->
+  </mat-dialog-content>
+</div>
+<ng-template #loading><mat-spinner></mat-spinner></ng-template>
+<!-- <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button
+      mat-button
+      [mat-dialog-close]=""
+      cdkFocusInitial
+      (click)="
+        sendcardService.card(
+          descriptionInput,
+          inputComment,
+          cardId,
+          cardService.card.card,
+          cardService.card.listId,
+          titleInput
+        )
+      "
+    >
+      Save
+    </button>
+  </mat-dialog-actions> -->
